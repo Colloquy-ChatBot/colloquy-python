@@ -90,16 +90,16 @@ print(response)  # "Hello!"
 Create your own bot by extending the ChatBot class:
 
 ```python
-from colloquy_chatbot import ChatBot, BotMessage
+from colloquy_chatbot import ChatBot, RoleMessage
 
 class ReverseBot(ChatBot):
     async def send_prompt(self):
         last_message = self.history[-1]
         reversed = last_message.text[::-1]
-        return BotMessage(reversed)
+        return RoleMessage("assistant", reversed)
 
 bot = ReverseBot()
-print(await bot.prompt("Hello"))  # "olleH"
+print(bot.prompt("Hello"))  # "olleH"
 ```
 
 ## Function Calling

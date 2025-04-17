@@ -4,6 +4,7 @@ src/colloquy_chatbot/__init__.py
 src/colloquy_chatbot/chat_bot.py
 src/colloquy_chatbot/claude_bot.py
 src/colloquy_chatbot/echo_bot.py
+src/colloquy_chatbot/message.py
 src/colloquy_chatbot/openai_bot.py
 src/colloquy_chatbot/prompt_function.py
 src/colloquy_chatbot.egg-info/PKG-INFO
@@ -11,6 +12,9 @@ src/colloquy_chatbot.egg-info/SOURCES.txt
 src/colloquy_chatbot.egg-info/dependency_links.txt
 src/colloquy_chatbot.egg-info/requires.txt
 src/colloquy_chatbot.egg-info/top_level.txt
+src/colloquy_chatbot/claude/function.py
+src/colloquy_chatbot/claude/message.py
+test/test_claude_bot.py
 test/test_echo_bot.py
-test/test_openai_claude_stubs.py
+test/test_openai_bot.py
 test/test_prompt_function.py

@@ -2,24 +2,20 @@
 
 import pytest
 
-from colloquy_chatbot import EchoBot
+from colloquy_chatbot import EchoBot, RoleMessage, TextMessage
 
 
 @pytest.mark.asyncio
-async def test_echo_bot():
-    """Test that EchoBot echoes back the input message."""
+async def test_prompt():
     bot = EchoBot()
-
     response = await bot.prompt("Hello there!")
     assert response == "Hello there!"
 
-    # Test another message
-    response = await bot.prompt("Testing 123")
-    assert response == "Testing 123"
-
-    # Check history
-    assert len(bot.history) == 4  # 2 prompts + 2 responses
-    assert bot.history[0].text == "Hello there!"
-    assert bot.history[1].text == "Hello there!"
-    assert bot.history[2].text == "Testing 123"
-    assert bot.history[3].text == "Testing 123"
+@pytest.mark.asyncio
+async def test_history():
+    bot = EchoBot()
+    await bot.prompt("Hello there!")
+    assert bot.history == [
+        TextMessage("Hello there!"),
+        TextMessage("Hello there!"),
+    ]

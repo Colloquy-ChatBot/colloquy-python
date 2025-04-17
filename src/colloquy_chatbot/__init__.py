@@ -1,6 +1,7 @@
 """Colloquy Chatbot - A more intuitive interface on top of existing chatbot APIs."""
 
-from .chat_bot import BotMessage, ChatBot
+from .message import TextMessage, RoleMessage
+from .chat_bot import ChatBot
 from .claude_bot import ClaudeBot
 from .echo_bot import EchoBot
 from .openai_bot import OpenAIBot

@@ -1,19 +1,19 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=42", "wheel>=0.40.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "colloquy_chatbot"
-version = "0.1.0"
+version = "0.2.0"
 description = "A more intuitive and consistent interface on top of existing chatbot APIs"
 readme = "README.md"
 requires-python = ">=3.8"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     {name = "Colin Williams", email = "lackita@gmail.com"}
 ]
 dependencies = [
-    "openai>=1.0.0",
+    "openai>=1.74.0",
     "anthropic>=0.3.0",
 ]
 

@@ -3,12 +3,12 @@ Name: colloquy_chatbot
 Version: 0.1.0
 Summary: A more intuitive and consistent interface on top of existing chatbot APIs
 Author-email: Colin Williams <lackita@gmail.com>
-License: MIT
+License-Expression: MIT
 Project-URL: Homepage, https://github.com/Colloquy-ChatBot/colloquy-python
 Project-URL: Bug Tracker, https://github.com/Colloquy-ChatBot/colloquy-python/issues
 Requires-Python: >=3.8
 Description-Content-Type: text/markdown
-Requires-Dist: openai>=1.0.0
+Requires-Dist: openai>=1.74.0
 Requires-Dist: anthropic>=0.3.0
 Provides-Extra: dev
 Requires-Dist: pytest>=7.0.0; extra == "dev"
@@ -109,16 +109,16 @@ print(response)  # "Hello!"
 Create your own bot by extending the ChatBot class:
 
 ```python
-from colloquy_chatbot import ChatBot, BotMessage
+from colloquy_chatbot import ChatBot, RoleMessage
 
 class ReverseBot(ChatBot):
     async def send_prompt(self):
         last_message = self.history[-1]
         reversed = last_message.text[::-1]
-        return BotMessage(reversed)
+        return RoleMessage("assistant", reversed)
 
 bot = ReverseBot()
-print(await bot.prompt("Hello"))  # "olleH"
+print(bot.prompt("Hello"))  # "olleH"
 ```
 
 ## Function Calling

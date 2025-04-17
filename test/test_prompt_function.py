@@ -7,8 +7,6 @@ from colloquy_chatbot import prompt_function
 
 
 def test_prompt_function_basic():
-    """Test that prompt_function correctly wraps a function."""
-
     @prompt_function(description="Test function")
     def add(a=1, b=2):
         """Add two numbers."""
@@ -50,7 +48,6 @@ def test_prompt_function_with_type_hints():
     assert params["name"]["type"] == "string"
     assert params["count"]["type"] == "integer"
     assert params["active"]["type"] == "boolean"
-    assert params["active"]["default"] is True
     assert params["data"]["type"] == "object"
 
 

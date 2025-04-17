@@ -6,27 +6,12 @@ from typing import Any, Callable, Dict, Optional, Type, get_type_hints
 
 
 class prompt_function:
-    """Descriptor for functions that can be called by LLMs.
-
-    Usage:
-        @prompt_function(description="Calculate area of rectangle")
-        def calculate_area(length=1, width=1):
-            return length * width
-    """
-
     def __init__(
         self,
         description: Optional[str] = None,
         name: Optional[str] = None,
         parameter_descriptions: Optional[Dict[str, str]] = None,
     ):
-        """Initialize the prompt function descriptor.
-
-        Args:
-            description: Description of what the function does
-            name: Optional override for the function name
-            parameter_descriptions: Optional descriptions for parameters
-        """
         self.description = description
         self.name = name
         self.parameter_descriptions = parameter_descriptions or {}
@@ -34,14 +19,6 @@ class prompt_function:
         self.metadata: Dict[str, Any] = {}
 
     def __call__(self, func):
-        """Decorate a function to make it available to LLMs.
-
-        Args:
-            func: The function to decorate
-
-        Returns:
-            The decorated function
-        """
         self.function = func
         self.name = self.name or func.__name__
         self.description = self.description or (func.__doc__ or "").strip()
@@ -60,14 +37,6 @@ class prompt_function:
         return wrapper
 
     def _infer_parameters(self, function: Callable) -> Dict[str, Dict[str, Any]]:
-        """Infer parameters from function signature.
-
-        Args:
-            function: The function to analyze
-
-        Returns:
-            Dictionary of parameter information
-        """
         signature = inspect.signature(function)
         type_hints = get_type_hints(function)
         params = {}
@@ -77,7 +46,7 @@ class prompt_function:
 
             # Get description from provided parameter descriptions or default
             param_info["description"] = self.parameter_descriptions.get(
-                name, f"Parameter: {name}"
+                name, ""
             )
 
             # Infer type from type hints or default value
@@ -87,23 +56,11 @@ class prompt_function:
             elif param.default is not inspect.Parameter.empty:
                 param_info["type"] = self._python_type_to_json_type(type(param.default))
 
-            # Add default value if available
-            if param.default is not inspect.Parameter.empty:
-                param_info["default"] = param.default
-
             params[name] = param_info
 
         return params
 
     def _python_type_to_json_type(self, py_type: Type) -> str:
-        """Convert Python type to JSON schema type.
-
-        Args:
-            py_type: Python type to convert
-
-        Returns:
-            String representation of JSON schema type
-        """
         type_map = {
             str: "string",
             int: "integer",
@@ -127,17 +84,15 @@ class prompt_function:
 
 
 def get_llm_functions(obj):
-    """Extract LLM functions from an object.
-
-    Args:
-        obj: Object to extract functions from
-
-    Returns:
-        List of (function, metadata) tuples
-    """
     functions = []
     for name in dir(obj):
         attr = getattr(obj, name)
         if callable(attr) and getattr(attr, "__llm_function__", False):
             functions.append((attr, getattr(attr, "__llm_metadata__")))
     return functions
+
+def catalog_functions(functions):
+    return {
+        getattr(function, "__llm_metadata__", {})["name"]: function
+        for function in functions
+    }
